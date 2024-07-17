@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: capstoneconfigserver
+  cloud:
+    config:
+      server:
+
+server:
+  port: 8887
