@@ -1,5 +1,6 @@
 package com.example.capstone.user.service;
 
+import com.example.capstone.user.controller.YoutubeServiceClient;
 import com.example.capstone.user.dto.UserDto;
 import com.example.capstone.user.jpa.UserEntity;
 import com.example.capstone.user.jpa.UserRepository;

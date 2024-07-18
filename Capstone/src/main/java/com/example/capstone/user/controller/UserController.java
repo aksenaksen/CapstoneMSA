@@ -2,6 +2,7 @@ package com.example.capstone.user.controller;
 
 import com.example.capstone.user.dto.UserDto;
 import com.example.capstone.user.security.JwtService;
+import com.example.capstone.user.service.KafkaProducer;
 import com.example.capstone.user.service.UserService;
 import com.example.capstone.user.vo.RequestModify;
 import com.example.capstone.user.vo.RequestRegister;
@@ -30,11 +31,24 @@ public class UserController {
 
     private final UserService userService;
     private final JwtService jwtService;
+    private final YoutubeServiceClient youtubeServiceClient;
+    private final KafkaProducer kafkaProducer;
     private ModelMapper modelMapper = new ModelMapper();
+
 
     @GetMapping("/info")
     public ResponseEntity<String> success(){
-        return ResponseEntity.ok("good");
+        String tmp = youtubeServiceClient.getResponse();
+
+        return ResponseEntity.ok(tmp);
+    }
+    @GetMapping("/kafka")
+    public ResponseEntity<String> test(HttpServletRequest request){
+
+        UserDto userDto = userService.getUserDtoByEmail(getEmailByRequest(request));
+        kafkaProducer.send("youtube-events",userDto);
+
+        return ResponseEntity.ok("ok");
     }
 
     @Operation(summary = "로그아웃", description = "사용자 로그아웃")
@@ -89,6 +103,8 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(user);
     }
+
+
 
     private String getEmailByRequest(HttpServletRequest request){
         return jwtService.extractAccessToken(request)

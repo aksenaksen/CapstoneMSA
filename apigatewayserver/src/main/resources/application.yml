@@ -23,9 +23,21 @@ spring:
             - Path=/api/users/**
           filters:
             - AuthorizationHeaderFilter
+        - id: CapstoneYoutube
+          uri: lb://youtube-service
+          predicates:
+            - Path=/api/youtube/**
+#          filters:
+#            - AuthorizationHeaderFilter
 
 
 
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh
 
 eureka:
   client:

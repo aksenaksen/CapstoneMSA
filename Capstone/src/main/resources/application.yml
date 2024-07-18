@@ -11,6 +11,12 @@ spring:
       ddl-auto: update
 
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh
+
 springdoc:
   version: '@project.version@'
   api-docs:
